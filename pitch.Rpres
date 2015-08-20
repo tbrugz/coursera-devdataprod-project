@@ -1,0 +1,57 @@
+Guess the slope and intercept for a regression line
+========================================================
+author: Telmo Brugnara
+date: 2015-08-23
+
+```{r, echo=FALSE, results="hide"}
+library(ggplot2)
+fit<-lm(Petal.Width ~ Petal.Length, data=iris)
+```
+
+
+A regression "game"
+========================================================
+
+The user is asked to guess the slope and intercept for a linear regression based on the following formula:
+
+```{r, eval=FALSE}
+lm(Petal.Width ~ Petal.Length, data=iris)
+```
+
+The user has to inform the slope and intercept values through sliders:
+
+![sliders](images/controls.png)
+
+
+The fitted regression
+========================================================
+
+The fitted (or "best") regression line is like the image below:
+
+```{r, echo=FALSE, results="hide"}
+#, fig.height=480, fig.width=600
+g <- ggplot(data=iris, aes(x = Petal.Length, y=Petal.Width)) +
+    geom_point()
+    expand_limits(x = 0, y = 0)
+g + geom_abline(intercept = fit$coefficients[1], slope = fit$coefficients[2], colour = "red", size = 2)
+```
+
+
+The guessing
+========================================================
+
+After informing slope and intercept, the user can see the calculated value for the mean square error (**MSE**) for the values informed and the difference (**MSE Diff**) from its MSE and the mean square error from the fitted regression. The idea is to make **MSE Diff** as close to zero as possible.
+
+![plot_and_metrics](images/plot_and_metrics.png)
+
+
+Thanks!
+========================================================
+
+Tip: a **MSE Diff** of `0.002` or less is pretty good ;)
+
+For more information, see:
+
+- [the shiny app](https://tbrugz.shinyapps.io/shinyApp)
+- [the github repo](https://github.com/tbrugz/coursera-devdataprod-project)
+
