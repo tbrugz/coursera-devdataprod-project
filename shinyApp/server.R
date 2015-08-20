@@ -5,7 +5,8 @@ shinyServer(
         g <- ggplot(data=iris, aes(x = Petal.Length, y=Petal.Width)) +
             geom_point() #+ ggtitle("Petal.Width ~ Petal.Length, data=iris") +
             expand_limits(x = 0, y = 0)
-        #fit<-lm(Petal.Width ~ Petal.Length, data=iris)
+        fit<-lm(Petal.Width ~ Petal.Length, data=iris)
+        fitMse <- mean(fit$residuals^2)
         
         output$plot <- reactivePlot(function() {
             g + geom_abline(intercept = input$b, slope = input$a, colour = "red", size = 2)
@@ -17,5 +18,6 @@ shinyServer(
             mse2
         })
         output$mse <- renderText({mse()})
+        output$mseDiff <- renderText({mse()-fitMse})
     }
 )
